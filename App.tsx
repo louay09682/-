@@ -1,13 +1,13 @@
 
-import React, { useState, useEffect, Suspense } from 'react';
-import Hero from './components/Hero';
-import WisdomSection from './components/WisdomSection';
-import MediatorSection from './components/MediatorSection';
-import PeaceWall from './components/PeaceWall';
-import IslamicPeaceSection from './components/IslamicPeaceSection';
-import PeaceGallery from './components/PeaceGallery';
-import PeaceRadar from './components/PeaceRadar';
-import Footer from './components/Footer';
+import React, { useState, useEffect } from 'react';
+import Hero from './components/Hero.tsx';
+import WisdomSection from './components/WisdomSection.tsx';
+import MediatorSection from './components/MediatorSection.tsx';
+import PeaceWall from './components/PeaceWall.tsx';
+import IslamicPeaceSection from './components/IslamicPeaceSection.tsx';
+import PeaceGallery from './components/PeaceGallery.tsx';
+import PeaceRadar from './components/PeaceRadar.tsx';
+import Footer from './components/Footer.tsx';
 
 const App: React.FC = () => {
   const [wallCount, setWallCount] = useState(128452);
@@ -16,7 +16,9 @@ const App: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true);
+    // محاكاة تأخير بسيط للتحميل لضمان سلاسة الواجهة
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    
     const activities = [
       "زائر من مسقط نشر رسالة سلام على الجدار...",
       "تم توليد حكمة جديدة عن التسامح الآن...",
@@ -31,7 +33,10 @@ const App: React.FC = () => {
       setActiveUsers(prev => Math.max(10, prev + Math.floor(Math.random() * 5) - 2));
     }, 8000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, []);
 
   const handleMessageAdded = () => {
@@ -41,7 +46,7 @@ const App: React.FC = () => {
   if (!isLoaded) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50 transition-opacity duration-1000">
+    <div className="min-h-screen bg-slate-50 transition-opacity duration-1000 animate-in fade-in">
       {/* Activity Bar - Top */}
       <div className="fixed top-0 left-0 right-0 z-[60] bg-blue-600 text-white py-1 px-4 text-[10px] md:text-sm overflow-hidden whitespace-nowrap shadow-md">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -56,13 +61,13 @@ const App: React.FC = () => {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-8 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/50 px-6 py-4 mx-4 md:mx-auto max-w-7xl rounded-3xl shadow-xl shadow-slate-200/50">
+      <nav className="fixed top-8 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 px-6 py-4 mx-4 md:mx-auto max-w-7xl rounded-3xl shadow-xl shadow-slate-200/50">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">🕊️</div>
             <span className="text-2xl font-black tracking-tight text-slate-800 hidden sm:block font-serif-ar">جسر السلام</span>
           </div>
-          <div className="flex gap-3 md:gap-8 font-bold text-slate-600 text-xs md:text-base">
+          <div className="flex gap-3 md:gap-8 font-bold text-slate-600 text-[10px] md:text-base">
             <a href="#" className="hover:text-blue-600 transition-colors">الرئيسية</a>
             <a href="#spiritual" className="hover:text-emerald-600 transition-colors">نور</a>
             <a href="#radar" className="hover:text-emerald-500 transition-colors">الرادار</a>
@@ -137,9 +142,7 @@ const App: React.FC = () => {
         </section>
 
         <IslamicPeaceSection />
-
         <PeaceRadar />
-
         <WisdomSection />
         
         {/* Quote Break */}
@@ -159,9 +162,7 @@ const App: React.FC = () => {
         </div>
 
         <PeaceGallery />
-
         <MediatorSection />
-
         <PeaceWall onMessageAdded={handleMessageAdded} />
       </main>
 

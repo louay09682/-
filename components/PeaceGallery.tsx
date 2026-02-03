@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { generatePeaceArt } from '../services/geminiService';
-import DoveIcon from './DoveIcon';
+import { generatePeaceArt } from '../services/geminiService.ts';
+import DoveIcon from './DoveIcon.tsx';
 
 const PeaceGallery: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -31,16 +31,16 @@ const PeaceGallery: React.FC = () => {
   return (
     <section id="gallery" className="py-24 bg-slate-50 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 text-right">
           <span className="text-emerald-600 font-bold tracking-widest uppercase text-sm">أروقة الجمال</span>
           <h2 className="text-4xl font-bold mt-2 font-serif-ar">معرض فنون السلام</h2>
-          <p className="text-slate-600 mt-4 max-w-2xl mx-auto">
+          <p className="text-slate-600 mt-4 max-w-2xl ml-auto">
             استخدم الذكاء الاصطناعي لتخيل رموز السلام في قوالب فنية مختلفة. الحمامة البيضاء ترسم عالماً أفضل.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
+          <div className="space-y-6 text-right">
             <h3 className="text-2xl font-bold text-slate-800">اختر أسلوبك الفني</h3>
             <div className="grid grid-cols-2 gap-3">
               {styles.map((s) => (
@@ -76,8 +76,8 @@ const PeaceGallery: React.FC = () => {
             ) : image ? (
               <img src={image} alt="Peace Art" className="w-full h-full object-cover rounded-2xl animate-in fade-in duration-1000" />
             ) : (
-              <div className="text-center opacity-20 group">
-                <DoveIcon className="w-32 h-32 mx-auto grayscale group-hover:grayscale-0 transition-all" />
+              <div className="text-center opacity-20">
+                <DoveIcon className="w-32 h-32 mx-auto grayscale" />
                 <p className="mt-4 font-medium">اختر أسلوباً لتبدأ المعرض</p>
               </div>
             )}
