@@ -42,6 +42,33 @@ export const mediateConflict = async (conflictDescription: string) => {
 };
 
 /**
+ * Finds peaceful places nearby using Google Maps grounding.
+ */
+export const findPeacefulPlaces = async (latitude: number, longitude: number) => {
+  const ai = getAI();
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: "ما هي أهدأ الأماكن القريبة مني للراحة أو التأمل أو القراءة؟ ابحث عن حدائق هادئة، مكتبات، أو مراكز يوغا وتأمل.",
+    config: {
+      tools: [{ googleMaps: {} }],
+      toolConfig: {
+        retrievalConfig: {
+          latLng: {
+            latitude: latitude,
+            longitude: longitude
+          }
+        }
+      }
+    },
+  });
+
+  return {
+    text: response.text,
+    links: response.candidates?.[0]?.groundingMetadata?.groundingChunks?.map((chunk: any) => chunk.maps).filter(Boolean) || []
+  };
+};
+
+/**
  * Generates a symbolic image representing peace using the gemini-2.5-flash-image model.
  */
 export const generatePeaceArt = async (style: string) => {
